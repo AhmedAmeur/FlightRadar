@@ -77,9 +77,7 @@ if __name__ == "__main__":
     flight_airline_contient.show()
 
 
-    ''' Result but it differ from one execution to another : it depend on active flights
-        |airline      |count|
-        |Qatar Airways|   37|'''
+  
 
 
 
