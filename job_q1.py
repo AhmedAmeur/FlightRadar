@@ -6,6 +6,7 @@ spark = SparkSession.builder.getOrCreate()
 from FlightRadar24.api import FlightRadar24API
 
 def company_with_most_active_flight(spark,api):
+    ''' function to answer the question : Q1: What is the company with the most active flights in the world ?'''
     flights = fr_api.get_flights()
     for flight in flights:
         try:
@@ -26,9 +27,9 @@ def company_with_most_active_flight(spark,api):
     df_flights_max = df_flights.groupBy('airline').count()
 
 
-    your_max_value = df_flights_max.agg({"count": "max"}).collect()[0][0]
+    max_value = df_flights_max.agg({"count": "max"}).collect()[0][0]
 
-    df_flights_max = df_flights_max.filter(F.col('count') == your_max_value)
+    df_flights_max = df_flights_max.filter(F.col('count') == max_value)
 
     return df_flights_max
 
@@ -41,6 +42,8 @@ if __name__ == "__main__":
     fr_api = FlightRadar24API()
     df_flights_max = company_with_most_active_flight(spark,fr_api)
     df_flights_max.show()
+
+
     
 
     

@@ -9,6 +9,7 @@ spark = SparkSession.builder.getOrCreate()
 from FlightRadar24.api import FlightRadar24API
 
 def generate_fligt(spark, api):
+    ''' function that generate the flight-airline table'''
     flights = fr_api.get_flights()
 
     for flight in flights:
@@ -28,6 +29,8 @@ def generate_fligt(spark, api):
     return df_flights
 
 def most_active_company_by_continent(spark, df_flights, api):
+    ''' function that calculate By continent, what are the companies with the most regional active flights (airports of Origin & Destination within the same continent) ?
+    for this question I based my answer on the bounds of the flight to extract the flying zone'''
 
     schema = StructType([StructField('id', StringType(), True), StructField('continent', StringType(), True)])
 
@@ -72,6 +75,11 @@ if __name__ == "__main__":
     df_flights = generate_fligt(spark, fr_api)
     flight_airline_contient = most_active_company_by_continent(spark, df_flights, fr_api)
     flight_airline_contient.show()
+
+
+    ''' Result but it differ from one execution to another : it depend on active flights
+        |airline      |count|
+        |Qatar Airways|   37|'''
 
 
 
